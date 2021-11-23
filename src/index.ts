@@ -7,13 +7,6 @@ class Block {
     public data: string;
     public timestamp: number;
 
-    static calculateBlockHash = (
-        index: number,
-        previousHash: string,
-        timestamp: number,
-        data: string
-    ): string =>CryptoJS.SHA256(index + previousHash + timestamp + data).toString();
-
     constructor(
         index:number,
         hash:string,
@@ -27,6 +20,20 @@ class Block {
         this.data=data;
         this.timestamp=timestamp;
     }
+
+    static calculateBlockHash = (
+        index: number,
+        previousHash: string,
+        timestamp: number,
+        data: string
+    ): string =>CryptoJS.SHA256(index + previousHash + timestamp + data).toString();
+
+    static validateStructure=(aBlock:Block):boolean=>
+        typeof aBlock.index==="number" &&
+        typeof aBlock.hash==="string" &&
+        typeof aBlock.previousHash==="string" &&
+        typeof aBlock.timestamp==="number" &&
+        typeof aBlock.data==="string";
 }
 
 const genesisBlock:Block=new Block(0,"2020202020202","","Hello",123456);
@@ -55,6 +62,16 @@ const createNewBlock=(data:string):Block =>{
         newTimeStamp
     );
     return newBlock;
+};
+const isBlockValid=(candidateBlock:Block, previousBlock:Block):boolean=>{
+    // Block 의 구조 유효성 검사
+    if(Block.validateStructure(candidateBlock)){
+        return false;
+    }else if(previousBlock.index+1!==candidateBlock.index){
+        return false;
+    }else if(previousBlock.hash!==candidateBlock.hash){
+        return false;
+    }
 };
 
 console.log(createNewBlock("hello"),createNewBlock("bye bye"));
