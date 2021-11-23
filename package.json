@@ -1,0 +1,14 @@
+{
+  "name": "project-2021-11-clone-blockchain",
+  "version": "1.0.0",
+  "description": "Learning Typescript by making a Blockchain with it",
+  "main": "index.js",
+  "repository": "https://github.com/unchaptered/21-11-clone-blockchain",
+  "author": "unchaptered",
+  "license": "MIT",
+  "scripts": {
+    "start": "node index.js",
+    "prestart": "tsc",
+    "tsc": "tsc"
+  }
+}
